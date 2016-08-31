@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Web components loader</title>
+    <link rel="import" href="./apps/angular-app.html">
+    <link rel="import" href="./apps/react-app.html">
+</head>
+<body>
+    <h1>Hello web-components</h1>
+    <div>
+        <button onclick="loadApp('angular-app')">Load Angular app</button>
+        <button onclick="loadApp('react-app')">Load React app</button>
+    </div>
+
+    <div id="container"></div>
+
+    <script src="./node_modules/webcomponents-lite/webcomponents-lite.js"></script>
+    <script src="./loader.js"></script>
+</body>
+</html>

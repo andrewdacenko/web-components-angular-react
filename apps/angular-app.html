@@ -1,0 +1,41 @@
+<script src="./../node_modules/angular/angular.js"></script>
+<script>
+    (function() {
+        // Creates an object based in the HTML Element prototype
+        var element = Object.create(HTMLElement.prototype);
+
+        // Fires when an instance of the element is created
+        element.createdCallback = function() {
+
+        };
+        // Fires when an instance was inserted into the document
+        element.attachedCallback = function() {
+            var app = document.createElement('div');
+            app.innerHTML = '<div ng-controller="AppController as vm">{{vm.hello}}</div>';
+
+            this.appendChild(app);
+
+            angular.module('app', [])
+                    .run(function() {
+                        console.log('angular');
+                    })
+                    .controller('AppController', function() {
+                        this.hello = 'Angular from Web Component';
+                    });
+
+            angular.bootstrap(app, ['app']);
+        };
+        // Fires when an instance was removed from the document
+        element.detachedCallback = function() {
+
+        };
+        // Fires when an attribute was added, removed, or updated
+        element.attributeChangedCallback = function(attr, oldVal, newVal) {
+
+        };
+        // Registers custom element
+        document.registerElement('angular-app', {
+            prototype: element
+        });
+    }());
+</script>

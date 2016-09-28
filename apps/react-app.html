@@ -11,17 +11,30 @@
         };
         // Fires when an instance was inserted into the document
         element.attachedCallback = function() {
-            var Hello = React.createClass({
-                displayName: 'Hello',
-                render: function() {
-                    return React.createElement("div", null, "Hello ", this.props.name);
-                }
-            });
+            var el = this;
 
-            ReactDOM.render(
+            try {
+                if(Math.random() > 0.5) {
+                    throw new Error('something went wrong');
+                }
+
+                var Hello = React.createClass({
+                    displayName: 'Hello',
+                    componentDidMount: function () {
+                        el.dispatchEvent(new Event('load'));
+                    },
+                    render: function() {
+                        return React.createElement("div", null, "Hello ", this.props.name);
+                    }
+                });
+
+                ReactDOM.render(
                     React.createElement(Hello, {name: "React"}),
-                    this
-            );
+                    el
+                );
+            } catch (e) {
+                el.dispatchEvent(new CustomEvent('error', { 'detail': e }));
+            }
         };
         // Fires when an instance was removed from the document
         element.detachedCallback = function() {

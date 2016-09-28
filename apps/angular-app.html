@@ -10,20 +10,28 @@
         };
         // Fires when an instance was inserted into the document
         element.attachedCallback = function() {
-            var app = document.createElement('div');
-            app.innerHTML = '<div ng-controller="AppController as vm">{{vm.hello}}</div>';
+            var el = this;
 
-            this.appendChild(app);
+            try {
+                if(Math.random() > 0.5) {
+                    throw new Error('something went wrong');
+                }
 
-            angular.module('app', [])
-                    .run(function() {
-                        console.log('angular');
-                    })
-                    .controller('AppController', function() {
-                        this.hello = 'Angular from Web Component';
-                    });
+                el.innerHTML = '<div ng-controller="AppController as vm">{{vm.hello}}</div>';
 
-            angular.bootstrap(app, ['app']);
+                angular.module('app', [])
+                        .run(function() {
+                            console.log('angular');
+                            el.dispatchEvent(new Event('load'));
+                        })
+                        .controller('AppController', function() {
+                            this.hello = 'Angular from Web Component';
+                        });
+
+                angular.bootstrap(el, ['app']);
+            } catch (e) {
+                el.dispatchEvent(new CustomEvent('error', { 'detail': e }));
+            }
         };
         // Fires when an instance was removed from the document
         element.detachedCallback = function() {

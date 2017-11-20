@@ -5,11 +5,20 @@
     <title>Web components loader</title>
     <script type="text/javascript" src="<%= htmlWebpackPlugin.files.chunks.polyfills.entry %>"></script>
     <link rel="import" href="./components/angular-app.html">
+    <link rel="import" href="./components/react-app.html">
+    <style>
+        .row {
+            display: flex;
+            flex-direction: row;
+        }
+        .row > * {
+            flex: 1;
+        }
+    </style>
 </head>
 <body>
     <div id="app"></div>
 
-    <!--<script src="../node_modules/webcomponents-lite/webcomponents-lite.js"></script>-->
     <script type="text/javascript" src="<%= htmlWebpackPlugin.files.chunks.main.entry %>"></script>
 </body>
 </html>

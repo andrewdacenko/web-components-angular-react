@@ -1,62 +1,87 @@
 import * as angular from 'angular';
-import { AppModule } from './app.module';
+import { AppModule, html } from './app.module';
 
 export class AngularApp extends HTMLElement {
     static name = 'angular-app';
 
     static get observedAttributes() {
-        return ['failed'];
+        return ['error-mode', 'title'];
     }
 
-    constructor(...args) {
-        super(...args);
-
-        console.log('AngularApp constructor', ...args);
+    get title() {
+        return this.getAttribute('title');
     }
 
+    get errorMode() {
+        return this.hasAttribute('error-mode');
+    }
 
-    attachedCallback(...args) {
-        console.log('AngularApp attached', ...args);
-        var el = this;
-
-        try {
-            if (Math.random() > 0.5) {
-                throw new Error('something went wrong');
-            }
-
-            el.innerHTML = '<div ng-controller="AppComponent as vm">{{vm.hello}}</div>';
-
-            angular.module(AppModule, [])
-                .run(function () {
-                    console.log(`Angular module ${AppModule} is running`);
-                    el.dispatchEvent(new Event('load'));
-                });
-
-            angular.bootstrap(el, [AppModule], {
-                strictDi: true
-            });
-        } catch (e) {
-            el.dispatchEvent(new CustomEvent('error', {detail: e}));
+    set errorMode(val) {
+        // Reflect the value of the open property as an HTML attribute.
+        if (val) {
+            this.setAttribute('error-mode', '');
+        } else {
+            this.removeAttribute('error-mode');
         }
     }
 
-    createdCallback(...args) {
-        console.log('AngularApp created', ...args);
+    produceError(e) {
+        this.dispatchEvent(new CustomEvent('error', {detail: e}));
     }
 
-    connectedCallback(...args) {
-        console.log('AngularApp connected', ...args);
+    constructor() {
+        super();
+
+        console.log('AngularApp constructor', this);
     }
 
-    disconnectedCallback(...args) {
-        console.log('AngularApp disconnected', ...args);
+    connectedCallback() {
+        try {
+            if (this.errorMode) {
+                throw new Error('Application failed at load');
+            }
+        } catch (e) {
+            this.produceError(e);
+            return;
+        }
+
+        console.log('AngularApp connected');
+
+        this.innerHTML = html;
+
+        const name = `${AppModule}.instance`;
+
+        // create new module as we attaching `run` callback
+        angular.module(name, [AppModule])
+            .value('config', {title: this.title})
+            .run(() => {
+                console.log(`Angular module ${AppModule} instance is running`);
+                this.dispatchEvent(new Event('load'));
+            });
+
+        this.$injector = angular.bootstrap(this, [name], {
+            strictDi: true
+        });
     }
 
-    attributeChangedCallback(...args) {
-        console.log('AngularApp attributeChanged', ...args)
+    disconnectedCallback() {
+        console.log('AngularApp disconnected');
     }
 
-    detachedCallback(...args) {
-        console.log('AngularApp detached', ...args);
+    attributeChangedCallback(attrName, oldVal, newVal) {
+        console.log('AngularApp attributeChanged', attrName, oldVal, newVal);
+
+        if (!this.$injector) {
+            return;
+        }
+
+        switch (attrName) {
+            case 'title':
+                const element = angular.element(this);
+                const config = element.injector().get('config');
+                config.title = this.title;
+                element.scope().$apply();
+                return;
+        }
     }
 }

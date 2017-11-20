@@ -1,14 +1,20 @@
 export class AppComponent {
     static component = {
-        template: '<div>{{$ctrl.hello}}</div>',
+        template: `
+            <div>
+                <h3>Title: {{ $ctrl.config.title }}</h3>
+                <p>Greeting: {{ $ctrl.hello }}</p>
+            </div>
+        `,
         controller: AppComponent,
     };
 
-    static $inject = ['$http'];
+    static $inject = ['$http', 'config'];
 
     hello = 'Angular Web Component';
 
-    constructor($http) {
+    constructor($http, config) {
         this.$http = $http;
+        this.config = config;
     }
 }

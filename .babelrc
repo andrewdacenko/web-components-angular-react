@@ -6,11 +6,12 @@
         "targets": {
           "browsers": [
             "> 2%",
-            "last 2 versions"
+            "last 1 version"
           ]
         }
       }
-    ]
+    ],
+    "@babel/preset-react"
   ],
   "plugins": [
     "@babel/transform-runtime",

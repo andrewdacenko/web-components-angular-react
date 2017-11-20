@@ -6,9 +6,9 @@ module.exports = (env) => {
 
     return {
         entry: {
-            polyfills: ['webcomponents-lite'],
+            polyfills: root('src/polyfills.js'),
             main: root('src/main.js'),
-            // 'react-app': root('src/react-app/main.js'),
+            'components/react-app': root('src/components/react-app/main.js'),
             'components/angular-app': root('src/components/angular-app/main.js'),
         },
         output: {
@@ -46,6 +46,12 @@ module.exports = (env) => {
                 chunks: ['components/angular-app'],
                 filename: 'components/angular-app.html',
                 template: root('src/components/angular-app/index.html'),
+                inject: false,
+            }),
+            new HtmlWebpackPlugin({
+                chunks: ['components/react-app'],
+                filename: 'components/react-app.html',
+                template: root('src/components/react-app/index.html'),
                 inject: false,
             }),
         ]

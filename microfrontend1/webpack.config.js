@@ -6,8 +6,7 @@ module.exports = (env) => {
 
     return {
         entry: {
-            polyfills: root('src/polyfills.js'),
-            main: root('src/main.js')
+            'main': root('src/main.js')
         },
         output: {
             path: root('dist'),
@@ -36,9 +35,10 @@ module.exports = (env) => {
         },
         plugins: [
             new HtmlWebpackPlugin({
+                chunks: ['main'],
                 filename: 'index.html',
                 template: root('src/index.html'),
-                inject: false,
+                inject: false
             })
         ]
     };

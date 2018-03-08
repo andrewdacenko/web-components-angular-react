@@ -6,6 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server --progress --open",
     "build": "webpack",
+    "deploy": "git push origin :gh-pages && git subtree push --prefix dist origin gh-pages",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -14,6 +15,7 @@
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^1.0.19",
     "http-server": "^0.9.0",
+    "angular": "^1.5.8",
     "webcomponents-lite": "^0.6.0"
   },
   "devDependencies": {

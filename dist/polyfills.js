@@ -60,24 +60,24 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 170);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 170:
+/***/ 6:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(171);
+__webpack_require__(7);
 
-__webpack_require__(172);
+__webpack_require__(8);
 
 /***/ }),
 
-/***/ 171:
+/***/ 7:
 /***/ (function(module, exports) {
 
 (function () {
@@ -100,7 +100,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 /***/ }),
 
-/***/ 172:
+/***/ 8:
 /***/ (function(module, exports) {
 
 (function(){
